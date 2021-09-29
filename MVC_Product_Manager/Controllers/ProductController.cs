@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MVC_Product_Manager.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,22 @@ namespace MVC_Product_Manager.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: ProductController
-        public ActionResult Index()
+        private readonly ApplicationDbContext context;
+
+        //Constructor
+        public ProductController(ApplicationDbContext context)
         {
-            return View();
+            this.context = context;
+        }
+
+        // GET: ProductController
+        public async Task<IActionResult> Index()
+        {
+            var products = await context.Products
+                .Include(x => x.Categorie)
+                .ToListAsync();
+              
+            return View(products);
         }
 
         // GET: ProductController/Details/5
