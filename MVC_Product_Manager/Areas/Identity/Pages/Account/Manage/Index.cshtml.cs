@@ -78,6 +78,16 @@ namespace MVC_Product_Manager.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+
+            //Add user´s Attributes to write into the database
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.Company = Input.Company;
+            user.Birthday = Input.Birthday;
+            user.Street = Input.Street;
+            user.City = Input.City;
+            await _userManager.UpdateAsync(user); //write to DATABASE
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
