@@ -55,6 +55,11 @@ namespace MVC_Product_Manager.Areas.Identity.Pages.Account.Manage
             {
                 PhoneNumber = phoneNumber,
                 FirstName = user.FirstName,
+                LastName = user.LastName,
+                Company = user.Company,
+                Birthday = user.Birthday,
+                Street = user.Street,
+                City = user.City
             };
         }
 
