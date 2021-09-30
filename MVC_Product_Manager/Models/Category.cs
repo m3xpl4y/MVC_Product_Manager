@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC_Product_Manager.Models
 {
@@ -17,5 +19,9 @@ namespace MVC_Product_Manager.Models
         [StringLength(160)]
         [Display(Name = "Kategorie Bild")]
         public string Image { get; set; }
+        [NotMapped]
+        [Display(Name ="Bildupload")]
+        public IFormFile ImageFile { get; set; }
+
     }
 }
