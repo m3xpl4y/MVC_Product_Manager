@@ -34,13 +34,19 @@ namespace MVC_Product_Manager.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefon")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Vorname")]
             public string FirstName { get; set; }
+            [Display(Name = "Nachname")]
             public string LastName { get; set; }
+            [Display(Name = "Hersteller")]
             public string Company { get; set; }
+            [Display(Name = "Geburtstag")]
             public DateTime Birthday { get; set; }
+            [Display(Name = "Straße")]
             public string Street { get; set; }
+            [Display(Name = "Stadt")]
             public string City { get; set; }
         }
 

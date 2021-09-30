@@ -9,7 +9,7 @@ namespace MVC_Product_Manager.Models
         [Required]
         [StringLength(60)]
         [Display(Name = "Kategorie")]
-        public string CatName { get; set; }
+        public string CategoryName { get; set; }
         [Required]
         [StringLength(200)]
         [Display(Name = "Beschreibung")]
