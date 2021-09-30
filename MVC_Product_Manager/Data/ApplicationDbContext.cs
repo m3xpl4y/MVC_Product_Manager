@@ -4,6 +4,7 @@ using MVC_Product_Manager.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MVC_Product_Manager.ViewModel;
 
 namespace MVC_Product_Manager.Data
 {
@@ -15,5 +16,6 @@ namespace MVC_Product_Manager.Data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<MVC_Product_Manager.ViewModel.ProductViewModel> ProductViewModel { get; set; }
     }
 }
