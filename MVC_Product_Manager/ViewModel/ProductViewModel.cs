@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MVC_Product_Manager.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVC_Product_Manager.ViewModel
 {
@@ -13,7 +15,7 @@ namespace MVC_Product_Manager.ViewModel
         [Required]
         [StringLength(200)]
         [Display(Name = "Product Beschreibung")]
-        public string Description { get; set; }
+        public string ProductDescription { get; set; }
         [Required]
         [StringLength(60)]
         [Display(Name = "Artikelnummer")]
@@ -23,7 +25,10 @@ namespace MVC_Product_Manager.ViewModel
         [Display(Name = "Hersteller")]
         public string Brand { get; set; }
         [StringLength(160)]
-        [Display(Name = "Bild")]
-        public string Image { get; set; }
+        [Display(Name = "Productbild")]
+        public string ProductImage { get; set; }
+        public Category Category { get; set; }
+        public List<Category> CategoryList { get; set; } = new List<Category>();
+
     }
 }
