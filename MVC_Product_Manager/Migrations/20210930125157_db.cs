@@ -238,14 +238,14 @@ namespace MVC_Product_Manager.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Image = table.Column<string>(type: "varchar(160)", maxLength: 160, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CategorieId = table.Column<int>(type: "int", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategorieId",
-                        column: x => x.CategorieId,
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -290,9 +290,9 @@ namespace MVC_Product_Manager.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategorieId",
+                name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "CategorieId");
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -1,0 +1,5 @@
+﻿TO ADD
+
+--ProductViewModel in ViewModel
+--Create View + ProductController
+--Create View + CategroyController 

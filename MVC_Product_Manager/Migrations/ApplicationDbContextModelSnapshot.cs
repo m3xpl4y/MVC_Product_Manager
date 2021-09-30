@@ -106,7 +106,7 @@ namespace MVC_Product_Manager.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MVC_Product_Manager.Models.Categorie", b =>
+            modelBuilder.Entity("MVC_Product_Manager.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,7 +147,7 @@ namespace MVC_Product_Manager.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
 
-                    b.Property<int?>("CategorieId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -166,7 +166,7 @@ namespace MVC_Product_Manager.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategorieId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -305,11 +305,11 @@ namespace MVC_Product_Manager.Migrations
 
             modelBuilder.Entity("MVC_Product_Manager.Models.Product", b =>
                 {
-                    b.HasOne("MVC_Product_Manager.Models.Categorie", "Categorie")
+                    b.HasOne("MVC_Product_Manager.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategorieId");
+                        .HasForeignKey("CategoryId");
 
-                    b.Navigation("Categorie");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

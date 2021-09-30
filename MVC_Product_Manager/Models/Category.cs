@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MVC_Product_Manager.Models
 {
-    public class Categorie
+    public class Category
     {
         public int Id { get; set; }
         [Required]
@@ -17,6 +17,5 @@ namespace MVC_Product_Manager.Models
         [StringLength(160)]
         [Display(Name = "Kategorie Bild")]
         public string Image { get; set; }
-        List<Product> Products { get; set; } = new List<Product>();
     }
 }
