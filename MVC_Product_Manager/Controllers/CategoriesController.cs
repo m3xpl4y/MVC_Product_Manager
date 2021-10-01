@@ -9,18 +9,19 @@ using Microsoft.EntityFrameworkCore;
 using MVC_Product_Manager.Data;
 using MVC_Product_Manager.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace MVC_Product_Manager.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public CategoriesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
-            this.webHostEnvironment = webHostEnvironment;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Categories
@@ -58,10 +59,22 @@ namespace MVC_Product_Manager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryName,Description,Image")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,CategoryName,Description,Image, ImageFile")] Category category)
         {
             if (ModelState.IsValid)
             {
+                var test = category.ImageFile.FileName;
+
+                    string path = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(category.ImageFile.FileName);
+                    string filePath = Path.Combine(path, fileName);
+                    using(var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await category.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                category.Image = fileName;
+                //Save to Database
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
