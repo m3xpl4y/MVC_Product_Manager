@@ -174,7 +174,16 @@ namespace MVC_Product_Manager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            //TODO: if Category has Products, MySql error, try & catch needed
             var category = await _context.Categories.FindAsync(id);
+            //Delete picture from directory
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            string fileName = category.Image;
+            string filePath = Path.Combine(path, fileName);
+
+            FileInfo file = new FileInfo(filePath);
+
+            file.Delete();
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
