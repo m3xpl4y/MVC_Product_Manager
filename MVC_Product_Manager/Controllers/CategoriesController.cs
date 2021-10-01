@@ -63,8 +63,7 @@ namespace MVC_Product_Manager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var test = category.ImageFile.FileName;
-
+                //save and rename file
                     string path = Path.Combine(_webHostEnvironment.WebRootPath, "images");
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(category.ImageFile.FileName);
                     string filePath = Path.Combine(path, fileName);
@@ -103,7 +102,7 @@ namespace MVC_Product_Manager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryName,Description,Image")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryName,Description,Image,ImageFile")] Category category)
         {
             if (id != category.Id)
             {
@@ -114,6 +113,25 @@ namespace MVC_Product_Manager.Controllers
             {
                 try
                 {
+                    var testBild = category.ImageFile;
+                    var testimage = category.Image;
+                    var testbidl = category.CategoryName;
+                    var testbild = category.Id;
+                    var testbildd = category.Description;
+                    //keep pic if no pic uploaded
+                    if(category.ImageFile != null)
+                    {
+                        //save and rename file
+                        string path = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(category.ImageFile.FileName);
+                        string filePath = Path.Combine(path, fileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await category.ImageFile.CopyToAsync(fileStream);
+                        }
+                        category.Image = fileName;
+                    }
+                    //save to database
                     _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
