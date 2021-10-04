@@ -17,7 +17,7 @@ namespace MVC_Product_Manager.Models
         [Display(Name = "Beschreibung")]
         public string Description { get; set; }
         [StringLength(160)]
-        [Display(Name = "Kategorie Bild")]
+        [Display(Name = "Kategoriebild")]
         public string Image { get; set; }
         [NotMapped]
         [Display(Name ="Bildupload")]

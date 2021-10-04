@@ -7,7 +7,8 @@
             <img class="card-img-top" src="~/images/@item.Image" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">@item.CategoryName</h5>
-                <p class="card-text">@item.Description.</p>
+                <p class="card-text">@Html.Raw(item.Description)</p>
+                @*<p class="card-text">@item.Description.</p>*@
             </div>
             <div class="card-footer">
                 <p class="card-text">

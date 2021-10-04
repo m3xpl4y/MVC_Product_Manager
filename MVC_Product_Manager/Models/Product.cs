@@ -8,11 +8,11 @@ namespace MVC_Product_Manager.Models
 
         [Required]
         [StringLength(60)]
-        [Display(Name = "Product Name")]
+        [Display(Name = "Produktname")]
         public string ProductName { get; set; }
         [Required]
         [StringLength(200)]
-        [Display(Name = "Product Beschreibung")]
+        [Display(Name = "Produktbeschreibung")]
         public string Description { get; set; }
         [Required]
         [StringLength(60)]
