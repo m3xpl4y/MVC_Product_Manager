@@ -10,6 +10,7 @@ using MVC_Product_Manager.Data;
 using MVC_Product_Manager.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace MVC_Product_Manager.Controllers
 {
@@ -49,6 +50,7 @@ namespace MVC_Product_Manager.Controllers
         }
 
         // GET: Categories/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -64,15 +66,22 @@ namespace MVC_Product_Manager.Controllers
             if (ModelState.IsValid)
             {
                 //save and rename file
-                    string path = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                string path = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                if(category.ImageFile != null)
+                {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(category.ImageFile.FileName);
                     string filePath = Path.Combine(path, fileName);
                     using(var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await category.ImageFile.CopyToAsync(fileStream);
                     }
+                    category.Image = fileName;
+                }
+                else
+                {
+                    category.Image = "death-g1dceeb02b_640.jpg";
+                }
 
-                category.Image = fileName;
                 //Save to Database
                 _context.Add(category);
                 await _context.SaveChangesAsync();
@@ -82,6 +91,7 @@ namespace MVC_Product_Manager.Controllers
         }
 
         // GET: Categories/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -174,6 +184,17 @@ namespace MVC_Product_Manager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var listOfProductsToRemoveFromCategory = await _context.Products.Where(x => x.Category.Id == id).ToListAsync();
+
+            foreach(var product in listOfProductsToRemoveFromCategory)
+            {
+                product.Category = null;
+                _context.Update(product);
+            }
+            
+
+            await _context.SaveChangesAsync();
+
             //TODO: if Category has Products, MySql error, try & catch needed
             var category = await _context.Categories.FindAsync(id);
             //Delete picture from directory
