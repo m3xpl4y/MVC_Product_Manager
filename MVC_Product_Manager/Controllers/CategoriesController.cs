@@ -25,16 +25,32 @@ namespace MVC_Product_Manager.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, int pg=1)
         {
-            if(search != null)
+            const int pageSize = 3;
+            if (pg < 1)
+                pg = 1;
+            
+            if (search != null)
             {
                 var category = _context.Categories.Where(x => x.CategoryName.StartsWith(search));
-                return View(await category.ToListAsync());
+                var searchedCategories = await category.ToListAsync();
+                int recsCount = searchedCategories.Count();
+                var pagination = new Pagination(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var model = searchedCategories.Skip(recSkip).Take(pagination.PageSize).ToList();
+                this.ViewBag.Pagination = pagination;
+                return View(model);
             }
             else
             {
-                return View(await _context.Categories.ToListAsync());
+                var allCategories = await _context.Categories.ToListAsync();
+                int recsCount = allCategories.Count();
+                var pagination = new Pagination(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var model = allCategories.Skip(recSkip).Take(pagination.PageSize).ToList();
+                this.ViewBag.Pagination = pagination;
+                return View(model);
             }
         }
 

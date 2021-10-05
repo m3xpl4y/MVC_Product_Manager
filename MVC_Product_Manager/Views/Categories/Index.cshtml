@@ -2,6 +2,15 @@
 
 @{
     ViewData["Title"] = "Kategorien";
+
+    Pagination pagination = new Pagination();
+    int pageNr = 0;
+    if(ViewBag.Pagination != null)
+    {
+        pagination = ViewBag.Pagination;
+        pageNr = pagination.CurrentPage;
+    }
+
 }
 
 <h1>Kategorien</h1>
@@ -14,5 +23,42 @@
     <input type="text" name="search" class="input" placeholder=" Search" />
     <input type="submit" class="btn btn-secondary" value="Search" />
 </form>
-<partial name="_CategoryViewPartial" model="Model" />
 
+<partial name="_CategoryViewPartial" model="Model" />
+<div class="container">
+    @{ 
+        if (pagination.TotalPages > 0)
+            {
+        <ul class="pagination justify-content-center">
+            @{
+                if (pagination.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="1">Erste Seite</a>
+                    </li>
+                    <li>
+                        <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pagination.CurrentPage - 1)">Vorherige</a>
+                    </li>
+                }
+            }
+            @for (var pge = pagination.StartPage; pge <= pagination.EndPage; pge++)
+            {
+                <li class="page-item" @(pge == pagination.CurrentPage ? "active" : "")>
+                    <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                </li>
+            }
+            @{
+                if (pagination.CurrentPage < pagination.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pagination.CurrentPage +1)">Nächste</a>
+                    </li>
+                    <li>
+                        <a class="page-link" asp-controller="Categories" asp-action="Index" asp-route-pg="@(pagination.TotalPages)">Letzte</a>
+                    </li>
+                }
+            }
+        </ul>
+            }
+    }
+</div>
