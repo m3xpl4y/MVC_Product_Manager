@@ -9,5 +9,10 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Kategorie erstellen</a>
 </p>
-<partial name="_CategoryViewPartial" model="Model"/>
+<form method="get">
+    @*asp-controller="Categories" asp-action="Index"*@
+    <input type="text" name="search" class="input" placeholder=" Search" />
+    <input type="submit" class="btn btn-secondary" value="Search" />
+</form>
+<partial name="_CategoryViewPartial" model="Model" />
 

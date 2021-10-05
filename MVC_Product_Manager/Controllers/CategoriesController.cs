@@ -25,11 +25,24 @@ namespace MVC_Product_Manager.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // GET: Categories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.Categories.ToListAsync());
+            if(search != null)
+            {
+                var category = _context.Categories.Where(x => x.CategoryName.StartsWith(search));
+                return View(await category.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Categories.ToListAsync());
+            }
         }
+
+        // GET: Categories
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Categories.ToListAsync());
+        //}
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
