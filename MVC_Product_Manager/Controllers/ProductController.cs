@@ -51,6 +51,7 @@ namespace MVC_Product_Manager.Controllers
         // GET: Product/Create
         public async Task<IActionResult> Create()
         {
+            //returniert eine list mit kategorien damit beim erstellen einen dropdown mit kategorien zur verfügung steht
             var category = await _context.Categories.ToListAsync();
             var viewModel = new ProductViewModel();
             viewModel.CategoryList = new List<Category>();
