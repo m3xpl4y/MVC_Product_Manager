@@ -33,7 +33,7 @@ namespace MVC_Product_Manager.Controllers
             
             if (search != null)
             {
-                var category = _context.Categories.Where(x => x.CategoryName.StartsWith(search));
+                var category = _context.Categories.Where(x => x.CategoryName.Contains(search) || x.Description.Contains(search));
                 var searchedCategories = await category.ToListAsync();
                 int recsCount = searchedCategories.Count();
                 var pagination = new Pagination(recsCount, pg, pageSize);

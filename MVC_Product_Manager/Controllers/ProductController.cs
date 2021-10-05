@@ -22,12 +22,20 @@ namespace MVC_Product_Manager.Controllers
         }
 
         // GET: Product
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg=1)
         {
+            const int pageSize = 6;
+            if (pg < 1)
+                pg = 1;
             var products = await _context.Products
                 .Include(x => x.Category)
                 .ToListAsync();
-            return View(products);
+            int recsCount = products.Count();
+            var pagination = new Pagination(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var model = products.Skip(recSkip).Take(pagination.PageSize).ToList();
+            this.ViewBag.Pagination = pagination;
+            return View(model);
         }
 
         // GET: Product/Details/5
