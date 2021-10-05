@@ -239,6 +239,13 @@ namespace MVC_Product_Manager.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> ListOfProducts(int id)
+        {
+            var products = await _context.Products.Where(x => x.Category.Id == id).ToListAsync();
+            //TODO: pagination hinzufügen
+            return View(products);
+        }
+
         private bool CategoryExists(int id)
         {
             return _context.Categories.Any(e => e.Id == id);
