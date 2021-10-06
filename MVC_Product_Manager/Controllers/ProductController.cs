@@ -65,14 +65,13 @@ namespace MVC_Product_Manager.Controllers
             //returniert eine list mit kategorien damit beim erstellen einen dropdown mit kategorien zur verfügung steht
             if(id != null)
             {
-                var categoryID = await _context.Categories.FindAsync(id);
-                viewModel.CategoryList.Add(categoryID);
-                var category = await _context.Categories.ToListAsync();
-                category.Remove(categoryID);
+                var categoryID = await _context.Categories.FindAsync(id); //Id suchen 
+                viewModel.CategoryList.Add(categoryID); // ID der liste hinzufügen als ersten Datensatz
+                var category = await _context.Categories.ToListAsync(); //alle datensätze setzten in liste
+                category.Remove(categoryID); //mitgegebene ID aus der liste entfernen 
                 foreach (var item in category)
                 {
-                    viewModel.CategoryList.Add(item);
-
+                    viewModel.CategoryList.Add(item); //restlichen datensätze zur viewModel Liste hinzufügen
                 }
             }
             else
