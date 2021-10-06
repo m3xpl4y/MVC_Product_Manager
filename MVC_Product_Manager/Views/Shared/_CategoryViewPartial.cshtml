@@ -21,6 +21,7 @@
                     </small>
                 </p>
                         <a asp-action="ListOfProducts" asp-route-id="@item.Id" >Produkte Anzeigen</a>
+                        <a asp-action="Create" asp-controller="Product" asp-route-id="@item.Id"><img src="/images/add_32px.png" class="float-right" /></a>
             </div>
         </div>
     }

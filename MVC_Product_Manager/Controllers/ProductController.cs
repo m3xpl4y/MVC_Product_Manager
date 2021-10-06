@@ -57,16 +57,33 @@ namespace MVC_Product_Manager.Controllers
         }
 
         // GET: Product/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            //returniert eine list mit kategorien damit beim erstellen einen dropdown mit kategorien zur verfügung steht
-            var category = await _context.Categories.ToListAsync();
+
             var viewModel = new ProductViewModel();
             viewModel.CategoryList = new List<Category>();
-            foreach (var item in category)
+            //returniert eine list mit kategorien damit beim erstellen einen dropdown mit kategorien zur verfügung steht
+            if(id != null)
             {
-                viewModel.CategoryList.Add(item);
+                var categoryID = await _context.Categories.FindAsync(id);
+                viewModel.CategoryList.Add(categoryID);
+                var category = await _context.Categories.ToListAsync();
+                category.Remove(categoryID);
+                foreach (var item in category)
+                {
+                    viewModel.CategoryList.Add(item);
+
+                }
             }
+            else
+            {
+                var category = await _context.Categories.ToListAsync();
+                foreach (var item in category)
+                {
+                    viewModel.CategoryList.Add(item);
+                }
+            }
+
 
             return View(viewModel);
         }
@@ -80,18 +97,20 @@ namespace MVC_Product_Manager.Controllers
         {
             if (ModelState.IsValid)
             {
-                Category category = await _context.Categories.FindAsync(productViewModel.CategoryId);
-                var product = new Product
-                {
-                    Id = productViewModel.Id,
-                    ProductName = productViewModel.ProductName,
-                    Description = productViewModel.ProductDescription,
-                    ArtNr = productViewModel.ArtNr,
-                    Brand = productViewModel.Brand,
-                    Category = category
-                };
 
-                await _context.AddAsync(product);
+                    Category category = await _context.Categories.FindAsync(productViewModel.CategoryId);
+                    var product = new Product
+                    {
+                        Id = productViewModel.Id,
+                        ProductName = productViewModel.ProductName,
+                        Description = productViewModel.ProductDescription,
+                        ArtNr = productViewModel.ArtNr,
+                        Brand = productViewModel.Brand,
+                        Category = category
+                    };
+                    await _context.AddAsync(product);
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
