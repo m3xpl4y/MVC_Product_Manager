@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<MVC_Product_Manager.Models.Category>
 
+
 <div class="card-columns">
     @foreach (var item in Model)
     {
         <div class="card">
-            <a  asp-action="Details" asp-route-id="@item.Id">
-            <img class="card-img-top" src="~/images/@item.Image" alt="~/images/user-g3caffd83d_640.png">
+            <a asp-action="Details" asp-route-id="@item.Id">
+                <img class="card-img-top" src="~/images/@item.Image" alt="~/images/user-g3caffd83d_640.png">
             </a>
             <div class="card-body">
                 <a asp-action="Details" asp-route-id="@item.Id"><h5 class="card-title">@item.CategoryName</h5></a>
@@ -20,8 +21,8 @@
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
                     </small>
                 </p>
-                        <a asp-action="ListOfProducts" asp-route-id="@item.Id" >Produkte Anzeigen</a>
-                        <a asp-action="Create" asp-controller="Product" asp-route-id="@item.Id"><img src="/images/add_32px.png" class="float-right" /></a>
+                <a asp-action="ListOfProducts" asp-route-id="@item.Id">Produkte Anzeigen</a>
+                <a asp-action="Create" asp-controller="Product" asp-route-id="@item.Id"><img src="/images/add_32px.png" class="float-right" /></a>
             </div>
         </div>
     }

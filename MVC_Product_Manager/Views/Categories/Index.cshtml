@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<MVC_Product_Manager.Models.Category>
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+@{
+    string pageSizeA = _httpContextAccessor.HttpContext.Request.Query["pageSizeA"].ToString();
+}
 @{
     ViewData["Title"] = "Kategorien";
 
@@ -12,16 +15,36 @@
     }
 }
 
+
 <h1>Kategorien</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Kategorie erstellen</a>
 </p>
+
 <form method="get">
     @*asp-controller="Categories" asp-action="Index"*@
+    <input type="hidden" name="pageSizeA" value="@pageSizeA" />
     <input type="text" name="search" class="input" placeholder=" Search" />
-    <input type="submit" class="btn btn-secondary" value="Search" />
+    <input type="submit" class="btn btn-secondary" />
 </form>
+
+<form method="get">
+    <div class="col-md-10">
+
+
+        @Html.DropDownList("pageSizeA", new List<SelectListItem>
+                {
+                   new SelectListItem{ Text="2", Value = "2" },
+                   new SelectListItem{ Text="3", Value = "3" },
+                  new SelectListItem{ Text="5", Value = "5" },
+                },
+                new { @onchange = "this.form.submit();" }
+                )
+
+    </div>
+</form>
+
 
 <partial name="_CategoryViewPartial" model="Model" />
 <partial name="_PaginationView" model="@pagination" />

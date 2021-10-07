@@ -18,13 +18,13 @@ namespace MVC_Product_Manager.Models
         {
 
         }
-        public Pagination(int totalItems, int page, int pageSize = 10)
+        public Pagination(int totalItems, int page, int pageSize)
         {
             int totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
             int currentPage = page;
 
             int startPage = currentPage - 2;
-            int endPage = currentPage + 1;
+            int endPage = currentPage + 2;
 
             if(startPage <= 0)
             {

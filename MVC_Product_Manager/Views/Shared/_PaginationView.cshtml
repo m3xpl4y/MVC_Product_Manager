@@ -2,6 +2,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 @{
     string search = _httpContextAccessor.HttpContext.Request.Query["search"].ToString();
+    string pageSizeA = _httpContextAccessor.HttpContext.Request.Query["pageSizeA"].ToString();
 }
 <div class="container">
     @{
@@ -12,27 +13,27 @@
                     if (Model.CurrentPage > 1)
                     {
                         <li class="page-item">
-                            <a class="page-link"  asp-action="Index" asp-route-pg="1" asp-route-search="@search">Erste Seite</a>
+                            <a class="page-link"  asp-action="Index" asp-route-pg="1" asp-route-search="@search" asp-route-pageSizeA="@pageSizeA">Erste Seite</a>
                         </li>
                         <li>
-                            <a class="page-link"  asp-action="Index" asp-route-pg="@(Model.CurrentPage - 1)" asp-route-search="@search">Vorherige</a>
+                            <a class="page-link"  asp-action="Index" asp-route-pg="@(Model.CurrentPage - 1)" asp-route-search="@search" asp-route-pageSizeA="@pageSizeA">Vorherige</a>
                         </li>
                     }
                 }
                 @for (var pge = Model.StartPage; pge <= Model.EndPage; pge++)
                 {
                     <li class="page-item" @(pge == Model.CurrentPage ? "active" : "")>
-                        <a class="page-link"  asp-action="Index" asp-route-pg="@pge" asp-route-search="@search">@pge</a>
+                        <a class="page-link"  asp-action="Index" asp-route-pg="@pge" asp-route-search="@search" asp-route-pageSizeA="@pageSizeA">@pge</a>
                     </li>
                 }
                 @{
                     if (Model.CurrentPage < Model.TotalPages)
                     {
                         <li class="page-item">
-                            <a class="page-link"  asp-action="Index" asp-route-pg="@(Model.CurrentPage +1)" asp-route-search="@search">Nächste</a>
+                            <a class="page-link"  asp-action="Index" asp-route-pg="@(Model.CurrentPage +1)" asp-route-search="@search" asp-route-pageSizeA="@pageSizeA">Nächste</a>
                         </li>
                         <li>
-                            <a class="page-link"  asp-action="Index" asp-route-pg="@(Model.TotalPages)" asp-route-search="@search">Letzte</a>
+                            <a class="page-link"  asp-action="Index" asp-route-pg="@(Model.TotalPages)" asp-route-search="@search" asp-route-pageSizeA="@pageSizeA">Letzte</a>
                         </li>
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,5 @@ namespace MVC_Product_Manager.Models
         [NotMapped]
         [Display(Name ="Bildupload")]
         public IFormFile ImageFile { get; set; }
-
     }
 }

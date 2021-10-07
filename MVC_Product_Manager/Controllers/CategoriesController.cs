@@ -25,9 +25,14 @@ namespace MVC_Product_Manager.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index(string search, int pg=1)
+        public async Task<IActionResult> Index(string search, string pageSizeA, int pg=1)
         {
-            const int pageSize = 3;
+            if(pageSizeA == null)
+            {
+                pageSizeA = "1";
+            }
+            int pageSize = int.Parse(pageSizeA);
+            
             if (pg < 1)
                 pg = 1;
             
