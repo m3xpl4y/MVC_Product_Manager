@@ -13,8 +13,8 @@
         pageNr = pagination.CurrentPage;
     }
 }
-<h1>Index</h1>
-
+<h1>Produkte</h1>
+<hr />
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -22,7 +22,14 @@
     @foreach (var item in Model)
     {
         <div class="card">
-            <img class="card-img-top" src="~/images/@item.Image" alt="~/images/user-g3caffd83d_640.png">
+            @if (item.Image != null)
+            {
+                <img class="card-img-top" src="~/images/@item.Image" alt="~/images/user-g3caffd83d_640.png">
+            }
+            else
+            {
+                <img class="card-img-top" src="~/images/default/default.png" alt="HalloWelt">
+            }
             <div class="card-body">
                 <h5 class="card-title">@item.ProductName</h5>
                 <p class="card-text">@Html.Raw(item.Description)</p>

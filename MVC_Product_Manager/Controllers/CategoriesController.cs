@@ -11,6 +11,7 @@ using MVC_Product_Manager.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using MVC_Product_Manager.ViewModel;
 
 namespace MVC_Product_Manager.Controllers
 {
@@ -25,38 +26,52 @@ namespace MVC_Product_Manager.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index(string search, string pageSizeA, int pg=1)
+        public async Task<IActionResult> Index(string search, int? pageSizeA, int pg=1)
         {
-            if(pageSizeA == null)
+            if(!pageSizeA.HasValue)
             {
-                pageSizeA = "1";
+                pageSizeA = 1;
             }
-            int pageSize = int.Parse(pageSizeA);
             
             if (pg < 1)
                 pg = 1;
-            
+
+            Pagination pagination = null;
+            IEnumerable<Category> model = null;
+
             if (search != null)
             {
-                var category = _context.Categories.Where(x => x.CategoryName.Contains(search) || x.Description.Contains(search));
-                var searchedCategories = await category.ToListAsync();
+                var category = _context.Categories
+                    .Where(x => x.CategoryName.Contains(search) || x.Description.Contains(search))
+                    .OrderBy(o => o.CategoryName);
+                var searchedCategories = await category
+                    .ToListAsync();
                 int recsCount = searchedCategories.Count();
-                var pagination = new Pagination(recsCount, pg, pageSize);
-                int recSkip = (pg - 1) * pageSize;
-                var model = searchedCategories.Skip(recSkip).Take(pagination.PageSize).ToList();
-                this.ViewBag.Pagination = pagination;
-                return View(model);
+                pagination = new Pagination(recsCount, pg, pageSizeA.Value);
+                int recSkip = (pg - 1) * pageSizeA.Value;
+                model = searchedCategories.Skip(recSkip).Take(pagination.PageSize).ToList();
             }
             else
             {
-                var allCategories = await _context.Categories.ToListAsync();
-                int recsCount = allCategories.Count();
-                var pagination = new Pagination(recsCount, pg, pageSize);
-                int recSkip = (pg - 1) * pageSize;
-                var model = allCategories.Skip(recSkip).Take(pagination.PageSize).ToList();
-                this.ViewBag.Pagination = pagination;
-                return View(model);
+                var allCategories = await _context.Categories
+                    .OrderBy(o => o.CategoryName)
+                    .ToListAsync();
+                int recsCount = allCategories
+                    .Count();
+                pagination = new Pagination(recsCount, pg, pageSizeA.Value);
+                int recSkip = (pg - 1) * pageSizeA.Value;
+                model = allCategories.Skip(recSkip).Take(pagination.PageSize).ToList();
+
             }
+            var cat = new CategoryViewModel
+            {
+                Categories = model,
+                Page = pg,
+                Pagination = pagination,
+                PageSize = pageSizeA.Value,
+                Search = search
+            };
+                return View(cat);
         }
 
         // GET: Categories
@@ -244,11 +259,18 @@ namespace MVC_Product_Manager.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ListOfProducts(int id)
+        public async Task<IActionResult> ListOfProducts(int id, int pg=1)
         {
+            const int pageSize = 6;
+            if (pg < 1)
+                pg = 1;
             var products = await _context.Products.Where(x => x.Category.Id == id).ToListAsync();
-            //TODO: pagination hinzufügen
-            return View(products);
+            int recsCount = products.Count();
+            var pagination = new Pagination(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var model = products.Skip(recSkip).Take(pagination.PageSize).ToList();
+            this.ViewBag.Pagination = pagination;
+            return View(model);
         }
 
         private bool CategoryExists(int id)
