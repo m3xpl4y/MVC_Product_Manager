@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MVC_Product_Manager.Data;
+using MVC_Product_Manager.Models;
+using MVC_Product_Manager.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MVC_Product_Manager.Data;
-using MVC_Product_Manager.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using System.Diagnostics;
-using MVC_Product_Manager.ViewModel;
 
 namespace MVC_Product_Manager.Controllers
 {

@@ -17,7 +17,7 @@ using MVC_Product_Manager.Models;
 
 namespace MVC_Product_Manager.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
